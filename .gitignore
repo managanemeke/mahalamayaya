@@ -1,0 +1,16 @@
+# mysql db files
+docker/mysql/*
+
+# composer vendor dir
+yaya/vendor
+
+# composer itself is not needed
+yaya/composer.phar
+
+# phpunit itself is not needed
+yaya/phpunit.phar
+# local phpunit config
+yaya/phpunit.xml
+
+yaya/tests/_output/*
+yaya/tests/_support/_generated
