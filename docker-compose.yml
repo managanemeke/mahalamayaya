@@ -3,6 +3,11 @@ version: '3'
 networks:
   default:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.88.0/24
+          gateway: 192.168.88.1
 
 services:
   php:
@@ -21,7 +26,8 @@ services:
     ports:
       - '8080:80'
     networks:
-      - default
+      default:
+        ipv4_address: 192.168.88.101
     depends_on:
       - db
   db:
@@ -39,7 +45,8 @@ services:
     volumes:
       - "./docker/mysql:/var/lib/mysql"
     networks:
-      - default
+      default:
+        ipv4_address: 192.168.88.102
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -49,3 +56,6 @@ services:
       - PMA_HOST=db
     depends_on:
       - db
+    networks:
+      default:
+        ipv4_address: 192.168.88.103
