@@ -13,3 +13,5 @@ docker-compose exec php /bin/bash -c '\
 #
 echo ""
 echo "ok..."
+#
+docker-compose exec php /bin/bash

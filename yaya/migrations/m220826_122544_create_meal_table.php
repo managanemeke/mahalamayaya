@@ -8,7 +8,7 @@ use yii\db\Migration;
  *
  * - `{{%section}}`
  */
-class m220826_053412_create_meal_table extends Migration
+class m220826_122544_create_meal_table extends Migration
 {
     /**
      * {@inheritdoc}

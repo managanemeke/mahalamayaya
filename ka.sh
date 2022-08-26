@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-docker-compose down
+call ./na.sh
 #
 rm -fr docker/mysql
 mkdir docker/mysql
