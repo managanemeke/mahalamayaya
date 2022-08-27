@@ -17,7 +17,7 @@ yii migrate/create create_meal_table --interactive=0 \
 sleep 1
 #
 yii migrate/create create_order_table --interactive=0 \
---fields="date:datetime,worker_id:integer:foreignKey(worker id),meal_id:integer:foreignKey(meal id)"
+--fields="date:date,worker_id:integer:foreignKey(worker id),meal_id:integer:foreignKey(meal id)"
 sleep 1
 #
 yii migrate --interactive=0

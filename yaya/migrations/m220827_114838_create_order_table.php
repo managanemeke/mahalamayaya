@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%worker}}`
  * - `{{%meal}}`
  */
-class m220826_122545_create_order_table extends Migration
+class m220827_114838_create_order_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class m220826_122545_create_order_table extends Migration
     {
         $this->createTable('{{%order}}', [
             'id' => $this->primaryKey(),
-            'date' => $this->datetime()->defaultValue(date('Y-m-d H:i:s')),
+            'date' => $this->date(),
             'worker_id' => $this->integer(),
             'meal_id' => $this->integer(),
         ]);
