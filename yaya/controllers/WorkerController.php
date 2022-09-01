@@ -2,7 +2,11 @@
 
 namespace app\controllers;
 
-class WorkerController extends \yii\rest\ActiveController
+use app\models\Worker;
+use app\controllers\Yaya;
+
+
+class WorkerController extends YayaController
 {
     public $modelClass = 'app\models\Worker';
 

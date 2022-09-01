@@ -2,7 +2,11 @@
 
 namespace app\controllers;
 
-class OrderController extends \yii\rest\ActiveController
+use app\models\Order;
+use app\controllers\Yaya;
+
+
+class OrderController extends YayaController
 {
     public $modelClass = 'app\models\Order';
 
