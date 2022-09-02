@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Order;
+use app\models\Worker;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -123,5 +124,149 @@ class OrderCrudController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetOrdersOnDateForProvider($date) {
+        /*
+        SELECT
+        `meal`.`name` AS `meal_name`,
+        COUNT(`order`.`meal_id`) AS `meal_amount`,
+        `meal`.`price` AS `meal_price`,
+        SUM(`meal`.`price`) AS `meal_sum`
+        FROM `order`
+        JOIN `meal`
+        ON `order`.`meal_id`=`meal`.`id`
+        WHERE date="2022-09-01"
+        GROUP BY `order`.`meal_id`;
+        */
+        
+        $ma = '';
+        $ma .= "`meal`.`name` AS `meal_name`,";
+        $ma .= "COUNT(`order`.`meal_id`) AS `meal_amount`,";
+        $ma .= "`meal`.`price` AS `meal_price`,";
+        $ma .= "SUM(`meal`.`price`) AS `meal_sum`";
+
+        $kalata = Order::find()
+            ->select($ma)
+            ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+            ->where(['date' => $date])
+            ->groupBy("`order`.`meal_id`")
+            ->asArray()
+            ->all();
+
+        /*
+        SELECT
+        SUM(`meal`.`price`) AS `meal_sum`
+        FROM `order`
+        JOIN `meal`
+        ON `order`.`meal_id`=`meal`.`id`
+        WHERE date="2022-09-01"
+        GROUP BY `order`.`date`;
+        */
+
+        $ma = 'SUM(`meal`.`price`) AS `meal_sum`';
+
+        $total = Order::find()
+            ->select($ma)
+            ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+            ->where(['date' => $date])
+            ->groupBy("`order`.`date`")
+            ->asArray()
+            ->one();
+        if($total != null) {
+            $total = $total["meal_sum"];
+        } else {
+            $total = 0;
+        }
+
+        return $this->render('orders-on-date-for-provider', [
+            'date' => $date,
+            'kalata' => $kalata,
+            'total' => $total,
+        ]);
+    }
+
+    public function actionGetOrdersOnDateForWorker($date) {
+        $kalara = [];
+        /*
+        SELECT `id`, `name` FROM `worker`;
+        */
+        $ma = '';
+        $ma .= "`id`,`name`";
+        $workers = Worker::find()
+            ->select($ma)
+            ->asArray()
+            ->all();
+        foreach($workers as $worker) {
+    $kalasa = [];
+    /*
+    SELECT
+    `meal`.`name` AS `meal_name`,
+    COUNT(`order`.`meal_id`) AS `meal_amount`,
+    `meal`.`price` AS `meal_price`,
+    SUM(`meal`.`price`) AS `meal_sum`
+    FROM `order`
+    JOIN `meal`
+    ON `order`.`meal_id`=`meal`.`id`
+    WHERE date="2022-09-01"
+    AND `order`.`worker_id`=1
+    GROUP BY `order`.`meal_id`;
+    */
+    
+    $ma = '';
+    $ma .= "`meal`.`name` AS `meal_name`,";
+    $ma .= "COUNT(`order`.`meal_id`) AS `meal_amount`,";
+    $ma .= "`meal`.`price` AS `meal_price`,";
+    $ma .= "SUM(`meal`.`price`) AS `meal_sum`";
+
+    $kalata = Order::find()
+        ->select($ma)
+        ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+        ->where(['date' => $date])
+        ->andWhere(['worker_id' => $worker["id"]])
+        ->groupBy("`order`.`meal_id`")
+        ->asArray()
+        ->all();
+
+
+    /*
+    SELECT
+    SUM(`meal`.`price`) AS `meal_sum`
+    FROM `order`
+    JOIN `meal`
+    ON `order`.`meal_id`=`meal`.`id`
+    WHERE date="2022-09-01"
+    AND `order`.`worker_id`=1
+    GROUP BY `order`.`date`;
+    */
+
+    $ma = 'SUM(`meal`.`price`) AS `meal_sum`';
+
+    $total = Order::find()
+        ->select($ma)
+        ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+        ->where(['date' => $date])
+        ->andWhere(['worker_id' => $worker["id"]])
+        ->groupBy("`order`.`date`")
+        ->asArray()
+        ->one();
+    if($total != null) {
+        $total = $total["meal_sum"];
+    } else {
+        $total = 0;
+    }
+
+    $kalasa["worker_name"] = $worker["name"];
+    $kalasa["orders"] = $kalata;
+    $kalasa["total"] = $total;
+    //
+    $kalara[] = $kalasa;
+    //
+        }
+
+        return $this->render('orders-on-date-for-worker', [
+            'date' => $date,
+            'kalara' => $kalara,
+        ]);
     }
 }
