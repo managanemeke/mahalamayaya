@@ -269,4 +269,65 @@ class OrderCrudController extends Controller
             'kalara' => $kalara,
         ]);
     }
+
+    public function actionGetOrdersOnMonthForWorker($year_month) {
+        /*
+        SELECT
+        `worker`.`name` AS `worker_name`,
+        SUM(`meal`.`price`) AS `meal_sum`
+        FROM `order`
+        JOIN `meal`
+        ON `order`.`meal_id`=`meal`.`id`
+        JOIN `worker`
+        ON `order`.`worker_id`=`worker`.`id`
+        WHERE date>="2022-08-31"
+        AND date<="2022-09-01"
+        GROUP BY `worker`.`name`;
+        */
+        
+        $ma = '';
+        $ma .= "`worker`.`name` AS `worker_name`,";
+        $ma .= "SUM(`meal`.`price`) AS `meal_sum`";
+
+        $kalata = Order::find()
+            ->select($ma)
+            ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+            ->leftJoin('`worker`','`order`.`worker_id`=`worker`.`id`')
+            ->where(['>=','date',$year_month."-01"])
+            ->andWhere(['<=','date',$year_month."-31"])
+            ->groupBy("`worker`.`name`")
+            ->asArray()
+            ->all();
+
+        /*
+        SELECT
+        SUM(`meal`.`price`) AS `meal_sum`
+        FROM `order`
+        JOIN `meal`
+        ON `order`.`meal_id`=`meal`.`id`
+        WHERE date="2022-09-01"
+        GROUP BY `order`.`date`;
+        */
+
+        $ma = 'SUM(`meal`.`price`) AS `meal_sum`';
+
+        $total = Order::find()
+            ->select($ma)
+            ->leftJoin('`meal`','`order`.`meal_id`=`meal`.`id`')
+            ->where(['>=','date',$year_month."-01"])
+            ->andWhere(['<=','date',$year_month."-31"])
+            ->asArray()
+            ->one();
+        if($total != null) {
+            $total = $total["meal_sum"];
+        } else {
+            $total = 0;
+        }
+
+        return $this->render('orders-on-month-for-worker', [
+            'year_month' => $year_month,
+            'kalata' => $kalata,
+            'total' => $total,
+        ]);
+    }
 }
