@@ -119,8 +119,12 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionCatalogs()
     {
-        return $this->render('about');
+        return $this->render('catalogs');
+    }
+    public function actionReports()
+    {
+        return $this->render('reports');
     }
 }

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-$this->title = "Заказы за $year_month месяц";
+$this->title = "Заказы за $year_month";
 print(Html::tag('h3',$this->title));
 print(Html::tag('br'));
 
