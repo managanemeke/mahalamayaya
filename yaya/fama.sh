@@ -2,6 +2,10 @@
 #
 location=http://localhost:80
 #
+yii migrate --interactive=0
+#
+sleep 5
+#
 curl --location --request POST $location'/workers' \
 --header 'Content-Type: application/json;charset=utf-8' \
 --data-raw '{
