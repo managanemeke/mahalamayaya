@@ -45,7 +45,7 @@ Simple Yii2 RESTful API for mahalama.
 - `docker --version`  
     `docker-compose --version`
 
-- `wget http://localhost:8080`  
+- `wget http://localhost:9000`  
     `vi index.html`  
     and you will see...
 
