@@ -1,22 +1,7 @@
 #!/bin/bash
 #
-yii gii/controller --interactive=0 \
---controllerClass=app\\controllers\\WorkerController \
---baseClass=yii\\rest\\ActiveController
-#
-yii gii/controller --interactive=0 \
---controllerClass=app\\controllers\\ProviderController \
---baseClass=yii\\rest\\ActiveController
-#
-yii gii/controller --interactive=0 \
---controllerClass=app\\controllers\\SectionController \
---baseClass=yii\\rest\\ActiveController
-#
-yii gii/controller --interactive=0 \
---controllerClass=app\\controllers\\MealController \
---baseClass=yii\\rest\\ActiveController
-#
-yii gii/controller --interactive=0 \
---controllerClass=app\\controllers\\OrderController \
---baseClass=yii\\rest\\ActiveController
-#
+yii gii/model --interactive=0 --tableName=worker --modelClass=Worker
+yii gii/model --interactive=0 --tableName=provider --modelClass=Provider
+yii gii/model --interactive=0 --tableName=section --modelClass=Section
+yii gii/model --interactive=0 --tableName=meal --modelClass=Meal
+yii gii/model --interactive=0 --tableName=order --modelClass=Order

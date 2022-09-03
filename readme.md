@@ -37,6 +37,8 @@ Simple Yii2 RESTful API for mahalama.
 ### startapps stage
 
 - `./ma.sh`
+- inside docker container run to initialize db:  
+    `./fama.sh`
 
 ### testapps stage
 
