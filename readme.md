@@ -2,6 +2,9 @@
 
 Simple Yii2 RESTful API for mahalama.
 
+You can see it in action here:  
+http://188.127.227.79:9000
+
 ## Golden way installation on Ubuntu 20.04 blank server
 
 ### installapps stage
